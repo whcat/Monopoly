@@ -90,7 +90,7 @@ class Techanaly():
 
     def Kvalue(self,weightK = 2/3,weightRSV =1/3): #前一日的Ｋ權重(預設2/3)+當日ＲＳＶ權重(預設1/3)
         k = [50]
-
+        rsv = self.RSV()
         for i in range(len(rsv)):
             k.append(weightK*k[-1] + weightRSV*rsv[i])
         kvalue = pd.Series(k[1:],index=rsv.index) #k[1:] 扣掉k的初始值
