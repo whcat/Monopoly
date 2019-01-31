@@ -88,24 +88,26 @@ class Techanaly():
             rsv[i]= 100*(self.CLOSE[i]-periodLow)/(periodHigh - periodLow)
         return rsv.dropna()
 
-    def Kvalue(self,weightK = 2/3,weightRSV =1/3): #前一日的Ｋ權重(預設2/3)+當日ＲＳＶ權重(預設1/3)
+    def Kvalue(self,weightK = 2/3,weightRSV =1/3,rsv_P=None): #前一日的Ｋ權重(預設2/3)+當日ＲＳＶ權重(預設1/3)
+        rsv = rsv_P if type(rsv_P)== pd.core.series.Series else self.RSV()
         k = [50]
-        rsv = self.RSV()
         for i in range(len(rsv)):
             k.append(weightK*k[-1] + weightRSV*rsv[i])
         kvalue = pd.Series(k[1:],index=rsv.index) #k[1:] 扣掉k的初始值
         return kvalue
 
-    def Dvalue(self,weightD=2/3,weightK=1/3): #前一日的D權重(預設2/3)+當日K權重(預設1/3)
+    def Dvalue(self,weightD=2/3,weightK=1/3,kval_P=None): #前一日的D權重(預設2/3)+當日K權重(預設1/3)
+        kvalue = kval_P if type(kval_P)== pd.core.series.Series else self.Kvalue()
         d=[50]
-        kvalue = self.Kvalue()
         for i in range(len(kvalue)):
             d.append(weightD*d[-1] + weightK*kvalue[i])
         dvalue = pd.Series(d[1:],index=kvalue.index) #d[1:] 扣掉d的初始值
         return dvalue
     #
-    def Jvalue(self,weightD =2 ,weightK=3): #當日的Ｋ權重(預設3)+當日Ｄ權重(預設2)
-        jvalue = pd.Series(map(lambda x: x[0] * weightK - x[1] * weightD, zip(self.Kvalue(),self.Dvalue())), index=self.Dvalue().index)
+    def Jvalue(self,weightD =2 ,weightK=3,dval_P = None,kval_P=None): #當日的Ｋ權重(預設3)+當日Ｄ權重(預設2)
+        dvalue = dval_P if type(dval_P)== pd.core.series.Series else self.Dvalue()
+        kvalue = kval_P if type(kval_P)== pd.core.series.Series else self.Kvalue()
+        jvalue = pd.Series(map(lambda x: x[0] * weightK - x[1] * weightD, zip(kvalue,dvalue)), index=dvalue.index)
         return jvalue
 
     def KDJvalue(self):
@@ -120,7 +122,12 @@ class Techanaly():
         kdjvalue = pd.DataFrame({ "Kvalue" :kvalue[1:],"Dvalue":dvalue[1:],"Jvalue":jvalue},index=self.RSV().index)
         return kdjvalue
 
-
+    def judge_paramater(self,base_p,ref_p):
+        if base_p == None:
+            return_p = ref_p
+        else:
+            return_p = base_p
+        return return_p
 
 
 
