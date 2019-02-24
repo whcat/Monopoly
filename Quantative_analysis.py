@@ -103,7 +103,7 @@ class Techanaly():
             d.append(weightD*d[-1] + weightK*kvalue[i])
         dvalue = pd.Series(d[1:],index=kvalue.index) #d[1:] 扣掉d的初始值
         return dvalue
-    #
+    
     def Jvalue(self,weightD =2 ,weightK=3,dval_P = None,kval_P=None): #當日的Ｋ權重(預設3)+當日Ｄ權重(預設2)
         dvalue = dval_P if type(dval_P)== pd.core.series.Series else self.Dvalue()
         kvalue = kval_P if type(kval_P)== pd.core.series.Series else self.Kvalue()

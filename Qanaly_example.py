@@ -51,7 +51,7 @@ qa = qa.Techanaly(stockdf)
 #print("==="*4,"RSV value","==="*4)
 #===========================================================
 # K value
-kvalue = qa.Kvalue()
+#kvalue = qa.Kvalue()
 #print(kvalue)
 #
 #print("==="*4,"K value","==="*4)
@@ -62,7 +62,7 @@ kvalue = qa.Kvalue()
 #D value
 #dvalue = qa.Dvalue()
 #print(dvalue)
-#print("==="*4),"D value","==="*4)
+#print("==="*4,"D value","==="*4)
 #===========================================================
 #J value
 jvalue = qa.Jvalue()

@@ -1,6 +1,4 @@
-import numpy as np
 import datetime
-import os
 import twstock
 import pandas as pd
 
