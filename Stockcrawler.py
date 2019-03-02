@@ -46,32 +46,6 @@ class StockCrawler(twstock.Stock):
 
         return stockdf
 
-    # def UpdatetheStartpoint(self, start_year=2013, start_month=1):  # 預設資料抓取起始點為20130101;
-    #     stockdf = self.readfiletodataframe()
-    #
-    #     data_head = self.strtodate(stockdf.index[0])  # 資料庫資料最起始的時間
-    #     startdays = (datetime.date(start_year, start_month, 1) - data_head).days
-    #     # startdays >0 代表設定的資料時間早於資料目前最早時間
-    #
-    #     if startdays > 0:
-    #         update_d = self.fetch_from(start_year, start_month, data_head.year, data_head.month)
-    #         update_d = pd.DataFrame(update_d).set_index("date")
-    #         stockdf = self.data_merge(update_d, stockdf)
-    #     else:
-    #         pass
-    #
-    #     return stockdf
-
-    # def fetch_from(self, year_start: int, month_start: int, year_end = today.year, month_end = today.month):
-    #     """Fetch data from year, month to what you want year month data"""
-    #     # 改寫twstock方法 增加可設定的截止時間
-    #     self.raw_data = []
-    #     self.data = []
-    #     for year, month in self._month_year_iter(month_start, year_start, month_end, year_end):
-    #         self.raw_data.append(self.fetcher.fetch(year, month, self.sid))
-    #         self.data.extend(self.raw_data[-1]['data'])
-    #     return self.data
-
 
     def readfiletodataframe(self):
         stockdf = pd.DataFrame
